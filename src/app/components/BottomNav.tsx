@@ -9,7 +9,11 @@ const navItems = [
   { id: 'wallet', icon: WalletCards, label: '充值' },
 ];
 
-export function BottomNav() {
+interface BottomNavProps {
+  onOpenSearch?: () => void;
+}
+
+export function BottomNav({ onOpenSearch }: BottomNavProps) {
   const [active, setActive] = useState('menu');
 
   return (
@@ -24,7 +28,10 @@ export function BottomNav() {
               return (
                 <button
                   key={item.id}
-                  onClick={() => setActive(item.id)}
+                  onClick={() => {
+                    setActive(item.id);
+                    onOpenSearch?.();
+                  }}
                   className="flex flex-col items-center gap-1 px-3 py-0 -mt-6"
                   aria-label={item.label}
                 >

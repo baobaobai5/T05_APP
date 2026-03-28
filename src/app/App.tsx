@@ -18,6 +18,7 @@ import { CategoryBrowsePage } from './components/CategoryBrowsePage';
 import { NovelDetailPage } from './components/NovelDetailPage';
 import { ReadingPage } from './components/ReadingPage';
 import { RankingPage } from './components/RankingPage';
+import { SearchPage } from './components/SearchPage';
 import type { NovelDetailData } from './components/NovelDetailPage';
 import type { ReaderChapterData } from './components/ReadingPage';
 
@@ -39,17 +40,23 @@ function buildReaderChapterFromNovel(novel: NovelDetailData): ReaderChapterData 
 export default function App() {
   const [isDark, setIsDark] = useState(true);
   const [currentPage, setCurrentPage] = useState<
-    'home' | 'category' | 'allWorks' | 'ranking' | 'finished' | 'free' | 'vip' | 'detail' | 'reader'
+    'home' | 'category' | 'allWorks' | 'ranking' | 'finished' | 'free' | 'vip' | 'detail' | 'reader' | 'search'
   >('home');
   const [detailSourcePage, setDetailSourcePage] = useState<
-    'home' | 'category' | 'allWorks' | 'ranking' | 'finished' | 'free' | 'vip'
+    'home' | 'category' | 'allWorks' | 'ranking' | 'finished' | 'free' | 'vip' | 'search'
   >('home');
   const [selectedNovel, setSelectedNovel] = useState<NovelDetailData | null>(null);
   const [selectedChapter, setSelectedChapter] = useState<ReaderChapterData | null>(null);
+  const [searchHistory, setSearchHistory] = useState<string[]>([
+    '豪门虐恋',
+    '热搜词条',
+    '完本小说',
+    '玄幻热血',
+  ]);
 
   const openDetailPage = (
     novel: NovelDetailData,
-    source: 'home' | 'category' | 'allWorks' | 'ranking' | 'finished' | 'free' | 'vip',
+    source: 'home' | 'category' | 'allWorks' | 'ranking' | 'finished' | 'free' | 'vip' | 'search',
   ) => {
     setSelectedNovel(novel);
     setDetailSourcePage(source);
@@ -59,6 +66,10 @@ export default function App() {
   const openReaderPage = (chapter: ReaderChapterData) => {
     setSelectedChapter(chapter);
     setCurrentPage('reader');
+  };
+
+  const openSearchPage = () => {
+    setCurrentPage('search');
   };
 
   return (
@@ -75,6 +86,13 @@ export default function App() {
               }}
               chapter={selectedChapter}
               onBack={() => setCurrentPage('detail')}
+            />
+          ) : currentPage === 'search' ? (
+            <SearchPage
+              onBack={() => setCurrentPage('home')}
+              history={searchHistory}
+              onHistoryChange={setSearchHistory}
+              onOpenDetail={(novel) => openDetailPage(novel, 'search')}
             />
           ) : currentPage === 'detail' && selectedNovel ? (
             <NovelDetailPage
@@ -99,7 +117,7 @@ export default function App() {
             <>
 
               {/* ── 1. 顶部粘性导航 ── */}
-              <Header />
+              <Header onOpenSearch={openSearchPage} />
 
               {/* ── 主滚动区域 ── */}
               <main className="pt-[86px] pb-24">
@@ -167,7 +185,7 @@ export default function App() {
               <AllCategoriesFloat />
 
               {/* ── 底部导航栏 ── */}
-              <BottomNav />
+              <BottomNav onOpenSearch={openSearchPage} />
             </>
           )}
         </div>
