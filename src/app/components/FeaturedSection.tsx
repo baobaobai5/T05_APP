@@ -109,7 +109,7 @@ export function FeaturedSection() {
                 </div>
 
                 <button
-                  className="mt-3.5 inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-medium text-[#111322] shadow-lg transition-all hover:scale-[1.02] active:scale-95"
+                  className="mt-3.5 inline-flex h-11 items-center gap-1.5 rounded-full px-4 text-[13px] font-medium text-[#111322] shadow-lg transition-all hover:scale-[1.02] active:scale-95"
                   style={{ backgroundColor: '#f8f7fb' }}
                 >
                   <BookOpen className="h-4 w-4" />

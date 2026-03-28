@@ -99,7 +99,7 @@ export function HotRecommendations() {
 
             <div className="p-3">
               <h4 className="text-[15px] font-medium text-foreground/94">{item.title}</h4>
-              <p className="mt-1 text-xs text-primary/85">{item.author}</p>
+              <p className="mt-1 text-xs text-muted-foreground">{item.author}</p>
               <p className="mt-1.5 line-clamp-2 text-xs leading-5 text-muted-foreground">
                 {item.desc}
               </p>

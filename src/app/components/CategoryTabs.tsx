@@ -20,7 +20,9 @@ interface CategoryItem {
 }
 
 interface CategoryTabsProps {
-  onOpenCategoryPage?: (page: 'category' | 'allWorks' | 'finished' | 'free' | 'vip') => void;
+  onOpenCategoryPage?: (
+    page: 'category' | 'allWorks' | 'ranking' | 'finished' | 'free' | 'vip',
+  ) => void;
 }
 
 const categories: CategoryItem[] = [
@@ -63,6 +65,12 @@ export function CategoryTabs({ onOpenCategoryPage }: CategoryTabsProps) {
                 if (cat.id === 4) {
                   setActive(cat.id);
                   onOpenCategoryPage?.('finished');
+                  return;
+                }
+
+                if (cat.id === 3) {
+                  setActive(cat.id);
+                  onOpenCategoryPage?.('ranking');
                   return;
                 }
 

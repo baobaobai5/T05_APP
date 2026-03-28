@@ -6,6 +6,7 @@ import {
 import vipBadge from '../../assets/vip-badge.svg';
 import coinBadge from '../../assets/coin-badge.svg';
 import levelBadge from '../../assets/level-badge.svg';
+import type { NovelDetailData } from './NovelDetailPage';
 import { SerialStatusBadge } from './ui/serial-status-badge';
 import {
   Select,
@@ -24,6 +25,7 @@ interface FilterGroup {
 interface CategoryBrowsePageProps {
   onBack: () => void;
   variant?: 'category' | 'allWorks' | 'finished' | 'free' | 'vip';
+  onOpenDetail?: (novel: NovelDetailData) => void;
 }
 
 interface BrowseItem {
@@ -208,6 +210,7 @@ const pageConfigs = {
 export function CategoryBrowsePage({
   onBack,
   variant = 'category',
+  onOpenDetail,
 }: CategoryBrowsePageProps) {
   const pageConfig = pageConfigs[variant];
   const defaultFilters = useMemo(
@@ -259,6 +262,27 @@ export function CategoryBrowsePage({
       return true;
     });
   }, [selectedFilters.price, selectedFilters.status]);
+
+  const buildDetailData = (item: BrowseItem): NovelDetailData => ({
+    id: item.id,
+    title: item.title,
+    cover: item.cover,
+    views: item.views,
+    status: item.status,
+    words: item.words.replace(/^.*字数\s*/, ''),
+    tags: item.tags,
+    updatedAt: item.updatedAt,
+    intro: `${item.desc} ${item.title}围绕${item.tags.join('、')}等元素铺开，节奏稳、情绪足，适合一口气沉浸式阅读。`,
+    latestChapter: `更新至${item.title}·${item.updatedAt.replace('更新于 ', '')} 最新章节`,
+    chapterCount: item.status === '完本' ? 550 : 342,
+    reads: item.views,
+    favorites: item.views,
+    author: item.tags[0] === '都市' ? '沙拉薯条' : item.tags[0] === '热血' ? '沈墨安' : '月下闻笙',
+    score: item.status === '完本' ? '9.7' : '9.6',
+    ratingCount: item.status === '完本' ? '9.4万人评价' : '8.8万人评价',
+    liveReaders: item.views,
+    totalReads: item.views,
+  });
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -372,9 +396,11 @@ export function CategoryBrowsePage({
 
           <div className="grid gap-3 px-3 py-1">
             {visibleItems.map((item) => (
-              <article
+              <button
                 key={item.id}
-                className="overflow-hidden rounded-[22px] border border-white/8 bg-[#1b1b2f] p-3 shadow-[0_14px_32px_rgba(0,0,0,0.18)]"
+                type="button"
+                onClick={() => onOpenDetail?.(buildDetailData(item))}
+                className="w-full overflow-hidden rounded-[22px] border border-white/8 bg-[#1b1b2f] p-3 text-left shadow-[0_14px_32px_rgba(0,0,0,0.18)] transition-all active:scale-[0.99]"
               >
                 {(() => {
                   const badgeSrc =
@@ -450,7 +476,7 @@ export function CategoryBrowsePage({
                 </div>
                   );
                 })()}
-              </article>
+              </button>
             ))}
           </div>
         </section>

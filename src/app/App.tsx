@@ -15,23 +15,85 @@ import { FreeNovelGrid } from './components/FreeNovelGrid';
 import { RecentUpdates } from './components/RecentUpdates';
 import { AllCategoriesFloat } from './components/AllCategoriesFloat';
 import { CategoryBrowsePage } from './components/CategoryBrowsePage';
+import { NovelDetailPage } from './components/NovelDetailPage';
+import { ReadingPage } from './components/ReadingPage';
+import { RankingPage } from './components/RankingPage';
+import type { NovelDetailData } from './components/NovelDetailPage';
+import type { ReaderChapterData } from './components/ReadingPage';
+
+function buildReaderChapterFromNovel(novel: NovelDetailData): ReaderChapterData {
+  return {
+    title: `第1章 她该清醒了`,
+    updatedAt: novel.updatedAt,
+    badge: 'vip',
+    content: [
+      '容桥抵达国机场时，已经晚上九点多了。',
+      '今天是她生日。',
+      '她打开手机时，收到了一堆生日祝福。',
+      '都是同事和朋友发过来的，封庭深这边却一点消息都没有。',
+      '容桥笑容淡了下来，夜色里只剩下机场广播声和她的脚步声。',
+    ],
+  };
+}
 
 export default function App() {
   const [isDark, setIsDark] = useState(true);
   const [currentPage, setCurrentPage] = useState<
-    'home' | 'category' | 'allWorks' | 'finished' | 'free' | 'vip'
+    'home' | 'category' | 'allWorks' | 'ranking' | 'finished' | 'free' | 'vip' | 'detail' | 'reader'
   >('home');
+  const [detailSourcePage, setDetailSourcePage] = useState<
+    'home' | 'category' | 'allWorks' | 'ranking' | 'finished' | 'free' | 'vip'
+  >('home');
+  const [selectedNovel, setSelectedNovel] = useState<NovelDetailData | null>(null);
+  const [selectedChapter, setSelectedChapter] = useState<ReaderChapterData | null>(null);
+
+  const openDetailPage = (
+    novel: NovelDetailData,
+    source: 'home' | 'category' | 'allWorks' | 'ranking' | 'finished' | 'free' | 'vip',
+  ) => {
+    setSelectedNovel(novel);
+    setDetailSourcePage(source);
+    setCurrentPage('detail');
+  };
+
+  const openReaderPage = (chapter: ReaderChapterData) => {
+    setSelectedChapter(chapter);
+    setCurrentPage('reader');
+  };
 
   return (
     <div className={isDark ? 'dark' : ''}>
       <div className="min-h-screen bg-background text-foreground">
         {/* Mobile Container */}
         <div className="max-w-[430px] mx-auto bg-background min-h-screen relative overflow-hidden">
-          {currentPage !== 'home' ? (
+          {currentPage === 'reader' && selectedNovel && selectedChapter ? (
+            <ReadingPage
+              novel={{
+                title: selectedNovel.title,
+                author: selectedNovel.author,
+                cover: selectedNovel.cover,
+              }}
+              chapter={selectedChapter}
+              onBack={() => setCurrentPage('detail')}
+            />
+          ) : currentPage === 'detail' && selectedNovel ? (
+            <NovelDetailPage
+              novel={selectedNovel}
+              onBack={() => setCurrentPage(detailSourcePage)}
+              onOpenChapter={openReaderPage}
+              onStartReading={() => openReaderPage(buildReaderChapterFromNovel(selectedNovel))}
+            />
+          ) : currentPage === 'ranking' ? (
+            <RankingPage
+              onBack={() => setCurrentPage('home')}
+              onOpenDetail={(novel) => openDetailPage(novel, 'ranking')}
+            />
+          ) : currentPage !== 'home' ? (
             <CategoryBrowsePage
               key={currentPage}
               variant={currentPage}
               onBack={() => setCurrentPage('home')}
+              onOpenDetail={(novel) => openDetailPage(novel, currentPage)}
             />
           ) : (
             <>

@@ -21,7 +21,7 @@ export function AdSection({ variant = 'default' }: AdSectionProps) {
             <p className="text-xs text-muted-foreground mb-0.5">赞助推广</p>
             <p className="text-sm leading-tight">会员专享：每日精选内容免费看</p>
           </div>
-          <button className="bg-primary-gradient flex-shrink-0 px-3 py-1.5 text-white rounded-xl text-xs shadow-md shadow-primary/25 active:scale-95 transition-transform">
+          <button className="bg-primary-gradient flex h-11 flex-shrink-0 items-center px-4 text-white rounded-xl text-xs shadow-md shadow-primary/25 active:scale-95 transition-transform">
             了解
           </button>
           <span className="absolute top-1.5 right-2 text-[10px] text-muted-foreground/50">广告</span>
@@ -51,7 +51,7 @@ export function AdSection({ variant = 'default' }: AdSectionProps) {
               <h4 className="text-white text-sm mb-1">新人首月会员 ¥0.01</h4>
               <p className="text-white/70 text-xs">解锁全部高级功能，无限创作</p>
             </div>
-            <button className="flex-shrink-0 px-3.5 py-2 bg-white text-orange-500 rounded-xl text-sm active:scale-95 transition-transform">
+            <button className="flex h-11 flex-shrink-0 items-center px-4 bg-white text-orange-500 rounded-xl text-sm active:scale-95 transition-transform">
               立即抢
             </button>
           </div>
