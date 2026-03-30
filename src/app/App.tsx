@@ -19,6 +19,9 @@ import { NovelDetailPage } from './components/NovelDetailPage';
 import { ReadingPage } from './components/ReadingPage';
 import { RankingPage } from './components/RankingPage';
 import { SearchPage } from './components/SearchPage';
+import { HistoryPage } from './components/HistoryPage';
+import { ShelfPage } from './components/ShelfPage';
+import { RechargePage } from './components/RechargePage';
 import type { NovelDetailData } from './components/NovelDetailPage';
 import type { ReaderChapterData } from './components/ReadingPage';
 
@@ -40,10 +43,10 @@ function buildReaderChapterFromNovel(novel: NovelDetailData): ReaderChapterData 
 export default function App() {
   const [isDark, setIsDark] = useState(true);
   const [currentPage, setCurrentPage] = useState<
-    'home' | 'category' | 'allWorks' | 'ranking' | 'finished' | 'free' | 'vip' | 'detail' | 'reader' | 'search'
+    'home' | 'history' | 'shelf' | 'wallet' | 'category' | 'allWorks' | 'ranking' | 'finished' | 'free' | 'vip' | 'detail' | 'reader' | 'search'
   >('home');
   const [detailSourcePage, setDetailSourcePage] = useState<
-    'home' | 'category' | 'allWorks' | 'ranking' | 'finished' | 'free' | 'vip' | 'search'
+    'home' | 'history' | 'shelf' | 'wallet' | 'category' | 'allWorks' | 'ranking' | 'finished' | 'free' | 'vip' | 'search'
   >('home');
   const [selectedNovel, setSelectedNovel] = useState<NovelDetailData | null>(null);
   const [selectedChapter, setSelectedChapter] = useState<ReaderChapterData | null>(null);
@@ -56,7 +59,7 @@ export default function App() {
 
   const openDetailPage = (
     novel: NovelDetailData,
-    source: 'home' | 'category' | 'allWorks' | 'ranking' | 'finished' | 'free' | 'vip' | 'search',
+    source: 'home' | 'history' | 'shelf' | 'wallet' | 'category' | 'allWorks' | 'ranking' | 'finished' | 'free' | 'vip' | 'search',
   ) => {
     setSelectedNovel(novel);
     setDetailSourcePage(source);
@@ -86,6 +89,23 @@ export default function App() {
               }}
               chapter={selectedChapter}
               onBack={() => setCurrentPage('detail')}
+            />
+          ) : currentPage === 'history' ? (
+            <HistoryPage
+              onOpenSearch={openSearchPage}
+              onOpenDetail={(novel) => openDetailPage(novel, 'history')}
+              onSelectPage={setCurrentPage}
+            />
+          ) : currentPage === 'shelf' ? (
+            <ShelfPage
+              onOpenSearch={openSearchPage}
+              onOpenDetail={(novel) => openDetailPage(novel, 'shelf')}
+              onSelectPage={setCurrentPage}
+            />
+          ) : currentPage === 'wallet' ? (
+            <RechargePage
+              onOpenSearch={openSearchPage}
+              onSelectPage={setCurrentPage}
             />
           ) : currentPage === 'search' ? (
             <SearchPage
@@ -185,7 +205,11 @@ export default function App() {
               <AllCategoriesFloat />
 
               {/* ── 底部导航栏 ── */}
-              <BottomNav onOpenSearch={openSearchPage} />
+              <BottomNav
+                onOpenSearch={openSearchPage}
+                onSelectPage={setCurrentPage}
+                activePage="home"
+              />
             </>
           )}
         </div>

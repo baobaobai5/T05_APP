@@ -8,7 +8,6 @@ import {
   Star,
   X,
 } from 'lucide-react';
-import levelBadge from '../../assets/level-badge.svg';
 import type { NovelDetailData } from './NovelDetailPage';
 import { HeatCount } from './ui/heat-count';
 import { SerialStatusBadge } from './ui/serial-status-badge';
@@ -331,19 +330,6 @@ export function SearchPage({
                         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,10,20,0.06),transparent_36%,rgba(8,10,20,0.28)_70%,rgba(8,10,20,0.8)_100%)]" />
 
                         <div className="absolute left-2 top-2 flex gap-1.5">
-                          {item.resultBadgeText ? (
-                            item.resultBadge === 'level' ? (
-                              <img
-                                src={levelBadge}
-                                alt="等级"
-                                className="h-5 w-auto object-contain"
-                              />
-                            ) : (
-                              <span className="inline-flex rounded-md bg-[#ff4c4c] px-1.5 py-0.5 text-[11px] text-white">
-                                {item.resultBadgeText}
-                              </span>
-                            )
-                          ) : null}
                           <SerialStatusBadge status={item.status} />
                         </div>
 

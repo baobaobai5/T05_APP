@@ -11,10 +11,24 @@ const navItems = [
 
 interface BottomNavProps {
   onOpenSearch?: () => void;
+  onSelectPage?: (page: 'home' | 'history' | 'shelf' | 'wallet') => void;
+  activePage?: 'home' | 'history' | 'shelf' | 'wallet';
 }
 
-export function BottomNav({ onOpenSearch }: BottomNavProps) {
-  const [active, setActive] = useState('menu');
+export function BottomNav({ onOpenSearch, onSelectPage, activePage = 'home' }: BottomNavProps) {
+  const [active, setActive] = useState(
+    activePage === 'history'
+      ? 'history'
+      : activePage === 'shelf'
+        ? 'shelf'
+        : activePage === 'wallet'
+          ? 'wallet'
+          : 'menu',
+  );
+  const currentActive =
+    activePage === 'history' || activePage === 'shelf' || activePage === 'wallet'
+      ? activePage
+      : active;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 max-w-[430px] mx-auto">
@@ -22,7 +36,7 @@ export function BottomNav({ onOpenSearch }: BottomNavProps) {
         <div className="flex items-end justify-around">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = active === item.id;
+            const isActive = currentActive === item.id;
 
             if (item.isCenter) {
               return (
@@ -46,7 +60,13 @@ export function BottomNav({ onOpenSearch }: BottomNavProps) {
             return (
               <button
                 key={item.id}
-                onClick={() => setActive(item.id)}
+                onClick={() => {
+                  setActive(item.id);
+                  if (item.id === 'menu') onSelectPage?.('home');
+                  if (item.id === 'history') onSelectPage?.('history');
+                  if (item.id === 'shelf') onSelectPage?.('shelf');
+                  if (item.id === 'wallet') onSelectPage?.('wallet');
+                }}
                 className="relative flex min-w-[62px] flex-col items-center gap-1 px-2 py-1.5"
               >
                 <div className="relative flex h-6 items-center justify-center">

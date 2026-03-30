@@ -12,9 +12,6 @@ import {
   Star,
 } from 'lucide-react';
 import promoBanner from '../../assets/promo-sale-banner.png';
-import vipBadge from '../../assets/vip-badge.svg';
-import coinBadge from '../../assets/coin-badge.svg';
-import levelBadge from '../../assets/level-badge.svg';
 import { HeatCount } from './ui/heat-count';
 import { SerialStatusBadge } from './ui/serial-status-badge';
 import {
@@ -535,23 +532,6 @@ export function NovelDetailPage({
                     <div>
                       <div className="flex items-center gap-2">
                         <div className="text-[15px] text-white/88">{chapter.title}</div>
-                        <img
-                          src={
-                            chapter.badge === 'vip'
-                              ? vipBadge
-                              : chapter.badge === 'level'
-                                ? levelBadge
-                                : coinBadge
-                          }
-                          alt={
-                            chapter.badge === 'vip'
-                              ? 'VIP'
-                              : chapter.badge === 'level'
-                                ? '等级'
-                                : '金币'
-                          }
-                          className="h-5 w-auto object-contain"
-                        />
                       </div>
                     </div>
                     <List className="h-4.5 w-4.5 text-white/48" />

@@ -3,9 +3,6 @@ import {
   ArrowLeft,
   Eye,
 } from 'lucide-react';
-import vipBadge from '../../assets/vip-badge.svg';
-import coinBadge from '../../assets/coin-badge.svg';
-import levelBadge from '../../assets/level-badge.svg';
 import type { NovelDetailData } from './NovelDetailPage';
 import { SerialStatusBadge } from './ui/serial-status-badge';
 import {
@@ -402,25 +399,6 @@ export function CategoryBrowsePage({
                 onClick={() => onOpenDetail?.(buildDetailData(item))}
                 className="w-full overflow-hidden rounded-[22px] border border-white/8 bg-[#1b1b2f] p-3 text-left shadow-[0_14px_32px_rgba(0,0,0,0.18)] transition-all active:scale-[0.99]"
               >
-                {(() => {
-                  const badgeSrc =
-                    item.badge === 'vip'
-                      ? vipBadge
-                      : item.badge === 'coin'
-                        ? coinBadge
-                        : item.badge === 'level'
-                          ? levelBadge
-                          : null;
-                  const badgeAlt =
-                    item.badge === 'vip'
-                      ? 'VIP'
-                      : item.badge === 'coin'
-                        ? '金币'
-                        : item.badge === 'level'
-                          ? '等级'
-                          : '';
-
-                  return (
                 <div className="flex gap-3">
                   <div className="relative h-[144px] w-[98px] shrink-0 overflow-hidden rounded-[14px] bg-muted">
                     <img
@@ -429,13 +407,6 @@ export function CategoryBrowsePage({
                       className="h-full w-full object-cover"
                     />
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,10,20,0.05),transparent_32%,rgba(8,10,20,0.18)_66%,rgba(8,10,20,0.72)_100%)]" />
-                    {badgeSrc ? (
-                      <img
-                        src={badgeSrc}
-                        alt={badgeAlt}
-                        className="absolute right-1.5 top-1.5 h-6 w-auto max-w-[46px] object-contain"
-                      />
-                    ) : null}
                   </div>
 
                   <div className="min-w-0 flex-1">
@@ -474,8 +445,6 @@ export function CategoryBrowsePage({
                     </div>
                   </div>
                 </div>
-                  );
-                })()}
               </button>
             ))}
           </div>

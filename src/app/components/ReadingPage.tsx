@@ -2,7 +2,6 @@ import { useState } from 'react';
 import {
   ArrowLeft,
   BookMarked,
-  BookOpen,
   Check,
   ChevronRight,
   LibraryBig,
@@ -12,9 +11,6 @@ import {
   SquareLibrary,
   X,
 } from 'lucide-react';
-import vipBadge from '../../assets/vip-badge.svg';
-import coinBadge from '../../assets/coin-badge.svg';
-import levelBadge from '../../assets/level-badge.svg';
 import { Slider } from './ui/slider';
 import { Sheet, SheetClose, SheetContent, SheetTitle } from './ui/sheet';
 
@@ -40,13 +36,6 @@ interface ReadingTheme {
   name: string;
   swatch: string;
   background: string;
-}
-
-function badgeLabel(badge?: ReaderChapterData['badge']) {
-  if (badge === 'vip') return 'VIP章节';
-  if (badge === 'level') return '等级章节';
-  if (badge === 'coin') return '金币章节';
-  return '正文';
 }
 
 function buildChapterCatalog(chapter: ReaderChapterData) {
@@ -182,10 +171,6 @@ export function ReadingPage({ novel, chapter, onBack }: ReadingPageProps) {
               <h1 className="line-clamp-1 text-[18px] font-semibold text-white">
                 {novel.title}
               </h1>
-              <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-primary-gradient px-2.5 py-1 text-[11px] font-medium text-white">
-                <BookOpen className="h-3.5 w-3.5" />
-                {badgeLabel(chapter.badge)}
-              </div>
               <p className="mt-2 text-[12px] text-white/48">作者：{novel.author ?? '未知作者'}</p>
             </div>
           </div>
@@ -305,23 +290,6 @@ export function ReadingPage({ novel, chapter, onBack }: ReadingPageProps) {
                       >
                         {item.title}
                       </div>
-                      <img
-                        src={
-                          item.badge === 'vip'
-                            ? vipBadge
-                            : item.badge === 'level'
-                              ? levelBadge
-                              : coinBadge
-                        }
-                        alt={
-                          item.badge === 'vip'
-                            ? 'VIP'
-                            : item.badge === 'level'
-                              ? '等级'
-                              : '金币'
-                        }
-                        className="h-5 w-auto shrink-0 object-contain"
-                      />
                     </div>
                     <div className="mt-1 text-[12px] text-muted-foreground/80">
                       {item.active ? '当前阅读章节' : '点击跳转本章'}
